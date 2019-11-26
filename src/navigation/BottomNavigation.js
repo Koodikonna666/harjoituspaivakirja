@@ -46,7 +46,7 @@ const HomeStack = createStackNavigator(
   AddTrainingStack.navigationOptions = {
     tabBarLabel: 'Add Training',
     tabBarIcon: ({ focused }) => (
-      <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-add-circle-outline' : 'md-add'} />
+      <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
     ),
     tabBarOptions:{
         showLabel: false

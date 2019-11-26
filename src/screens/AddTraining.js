@@ -21,12 +21,13 @@ const firebaseConfig = {
     measurementId: "G-LXG479VFVN"
   };
   
-  if (!firebase.apps.length){
-  firebase.initializeApp(firebaseConfig);
-  }
-  
 
+if (!firebase.apps.length){
+    firebase.initializeApp(firebaseConfig);
+    }
+    
   
+    
 
 const AddTraining = props => {
 
@@ -35,9 +36,8 @@ const [time, setTime] = React.useState('');
 const [duration, setDuration] = React.useState(0);
 const [name, setName] = React.useState('');
 const [type, setType] = React.useState('');
-const [content, setContent] = React.useState('Heippa homot');
+const [content, setContent] = React.useState('');
 const [training, setTraining] = React.useState([]);
-const [trainings, setTrainings] = React.useState([]);
 
 
 
@@ -57,10 +57,10 @@ let typeData = [{
 addTraining = () => {
 
    setTraining([...training, {key: date, time: time, duration: duration, name: name,type: type,content: content}]);
-    setTrainings([...trainings, {key: date+time, training: training}])
+    //setTrainings([...trainings, {key: date+time, training: training}])
 
     firebase.database().ref('trainings/').push(
-        {'trainings': trainings}
+        {'training': training}
     )
     setDate('');
     setName('');
@@ -70,7 +70,6 @@ addTraining = () => {
     setDuration(0);
 
 
-    console.log(trainings)
 }
 
 

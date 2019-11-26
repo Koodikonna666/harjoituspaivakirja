@@ -89,6 +89,18 @@ export const styles = StyleSheet.create({
         borderRadius:15,
         overflow:'hidden'
     },
+    goAddTraining:{
+        marginTop: '10%',
+        marginLeft: '10%',
+        marginRight: '10%',
+        backgroundColor: '#e4493a',
+    },
+    goAddTrainingText:{
+       fontSize:30,
+       padding: 10,
+       textAlign: 'center',
+
+    },
     
 
 

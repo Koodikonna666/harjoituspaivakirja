@@ -11,9 +11,6 @@ const Summary = props => {
 const [content, setContent] = React.useState('');
 const [items, setItems] = React.useState([]);
 
-const saveItem = () => {
-    firebase.database().ref('items/').push(
-        {'content': content});}
 
     return (
         <View style={styles.center}>

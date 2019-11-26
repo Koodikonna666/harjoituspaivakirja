@@ -1,9 +1,10 @@
-import React from 'react';
-import {View, Alert} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {View, Alert, TouchableOpacity, Text} from 'react-native';
 import {CalendarList} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import { styles } from '../styles/styles';
-import AddTraining from './AddTraining'
+import * as firebase from'firebase';
+
 
 
 
@@ -21,8 +22,24 @@ LocaleConfig.defaultLocale = 'fr';
 
 const CalendarScreen = props => {
 
-const [treenit, setTreenit] = React.useState('Hapoton')
 
+//     const [trainings, setTrainings] = useState([])
+
+// useEffect(() => {
+//     firebase.database().ref('trainings/').on('value', snapshot=> {
+//         const data= snapshot.val ();
+//         const prods= Object.values(data);
+//         setTrainings(prods);
+//     });
+// }, []);
+
+
+dayPressed = () => {
+Alert.alert('Tämän päivän harjoitukset', 'Nopeuskestävyys')
+}
+goAddTraining = () => {
+    Alert.alert('Siirtymä', 'Lisää harjoitus')
+    }
 
     return (
 
@@ -34,9 +51,23 @@ const [treenit, setTreenit] = React.useState('Hapoton')
 
             futureScrollRange={4}
 
-            onDayPress={(day) => {Alert.alert('Tehdyt harjoitukset', treenit)}}
+            onDayPress={(day) => dayPressed()}
+            
+
+            markedDates={{
+                '2019-11-25': {marked: true, selectedColor: 'blue'},
+
+            }}
 
             />
+            <View>
+                <TouchableOpacity
+                style={styles.goAddTraining}
+                onPress={goAddTraining}
+                >
+                <Text style={styles.goAddTrainingText}>Lisää tehty harjoitus</Text>
+                </TouchableOpacity>
+            </View>
             
         </View>
 
