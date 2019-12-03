@@ -1,12 +1,14 @@
 import {StyleSheet} from 'react-native';
 
 
-
 export const styles = StyleSheet.create({
     center:{
         flex:1,
         justifyContent:'center',
         alignItems: 'center'
+    },
+    background:{
+        backgroundColor:'F4C484'
     },
     header:{
         backgroundColor: 'white'        
@@ -23,13 +25,13 @@ export const styles = StyleSheet.create({
     },
     textinput:{
         width:'100%',
-        justifyContent:'center',
+        color:'white',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         fontSize:20,
-        height:40,
-        borderWidth:2,
-        borderRadius: 10,
-        borderColor: 'black',
-        padding:5
+        borderBottomColor: 'white',
+        borderBottomWidth:1
+
     },
     loginTextInput:{
         color:'white',
@@ -37,7 +39,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 15,
         fontSize:25,
         borderBottomColor: 'white',
-        borderBottomWidth:1
+        borderBottomWidth:1,
     },
     loginButtons:{
         backgroundColor: '#e4493a',
@@ -66,9 +68,9 @@ export const styles = StyleSheet.create({
         fontSize:12,
         height:40,
         textAlign:'center',
-        borderWidth:2,
-        borderRadius: 10,
-        borderColor: 'black'
+        borderBottomWidth:1,
+        borderColor: 'white',
+        color:'white',
     },
     width80:{
         width: '80%',
@@ -81,7 +83,9 @@ export const styles = StyleSheet.create({
         textAlign:'center'
     },
     heading1:{
-        fontSize:30
+        fontSize:30,
+        color:'white',
+        marginTop: 25,
     },
     saa:{
         fontSize:40,
@@ -90,18 +94,108 @@ export const styles = StyleSheet.create({
         overflow:'hidden'
     },
     goAddTraining:{
-        marginTop: '10%',
-        marginLeft: '10%',
-        marginRight: '10%',
-        backgroundColor: '#e4493a',
+        marginTop: '20%',
+        marginLeft: '15%',
+        marginRight: '15%',
+        backgroundColor: '#279791',
+        borderRadius: 10,
     },
     goAddTrainingText:{
        fontSize:30,
-       padding: 10,
+       paddingVertical: 10,
        textAlign: 'center',
 
     },
+    addTrainingButton:{
+        borderRadius: 10,
+        backgroundColor: '#F4C484',
+        marginBottom:30,
+        marginTop: 30,
+        marginLeft: '15%',
+        marginRight: '15%'
+
+    },
+    addTrainingButtonText:{
+        fontSize:30,
+        textAlign: 'center',
+        paddingVertical: 10,
+
+
+    },
+    borderTop:{
+        width: '90%',
+        borderTopWidth: 1,
+        borderTopColor:'#dfdfdf',
+        marginLeft:'auto',
+        marginRight:'auto',
+    },
+    listSeparator:{
+        width:'100%',
+        borderBottomWidth:2,
+        borderColor:'grey',
+        paddingVertical: 30,
+
+    },
+    itemText:{
+        fontSize:20,
+    },
+    itemTextHeading:{
+        fontSize:30,
+    },
+    itemTextFeelLoad:{
+        fontSize:20,
+        padding:10,
+        borderRadius: 5,
+        overflow: 'hidden',
+        marginTop:20,
+        backgroundColor:'#F4C484'
+    },
+    itemTextType:{
+        fontSize:15,
+        marginLeft:20,
+        paddingTop:11        
+    },
+    flex:{
+        flexDirection:'row',
+        backgroundColor:'F4C484',
+
+
+    },
+    datesRowItem:{
+        marginLeft:'auto',
+        marginRight:'auto',
+    },
+    feelLoadRowItem:{
+        flexDirection:'row',
+        marginLeft:'auto',
+        marginRight:'auto',
+    },
+    nameRowItem:{
+        flexDirection:'row',
+        marginLeft:'auto',
+        marginRight:'auto',
+        marginTop: 30,
+        backgroundColor:'#279791',
+        padding:15,
+        borderRadius: 5,
+        overflow:'hidden'
+
+    },
+    contentRowItem:{
+        flexDirection:'row',
+        marginLeft:'auto',
+        marginRight:'auto',
+        marginTop: 30,
+        borderColor:'black',
+        borderWidth:1,
+        padding:20,
+        width:'80%',
+        borderRadius:10,
+        backgroundColor:'#ececec',
+    },
     
+
+  
 
 
 })

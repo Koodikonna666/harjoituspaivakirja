@@ -42,6 +42,12 @@ try {
     Alert.alert(error)
 }
 
+
+Alert.alert('Käyttäjä luotu', 'Voit nyt kirjautua sisään tekemilläsi tunnuksilla, ja käyttää jatkossa niitä kirjautumiseen')
+setEmail('');
+setPassword('');
+
+
 }
 
 

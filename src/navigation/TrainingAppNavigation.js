@@ -11,7 +11,8 @@ export default createAppContainer(
     Main: BottomNavigation,
   },
   {
-    initialRouteName: 'Main'
+    initialRouteName: 'Auth',
+    
   }
   )
 );

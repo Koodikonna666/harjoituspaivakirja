@@ -1,11 +1,10 @@
 import React from 'react';
 import * as firebase from'firebase';
-import {View, TextInput, Button, Text, ScrollView} from 'react-native';
+import {View, TextInput, TouchableOpacity, Text, ScrollView, Alert,RefreshControl} from 'react-native';
 import { styles } from '../styles/styles';
 import DatePicker from 'react-native-datepicker'
 import  { Dropdown } from 'react-native-material-dropdown';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
@@ -26,9 +25,8 @@ if (!firebase.apps.length){
     firebase.initializeApp(firebaseConfig);
     }
     
-  
-    
 
+  
 const AddTraining = props => {
 
 const [date, setDate] = React.useState('');
@@ -36,50 +34,144 @@ const [time, setTime] = React.useState('');
 const [duration, setDuration] = React.useState(0);
 const [name, setName] = React.useState('');
 const [type, setType] = React.useState('');
+const [feel, setFeel] = React.useState('');
+const [load, setLoad] = React.useState('');
 const [content, setContent] = React.useState('');
 const [training, setTraining] = React.useState([]);
 
 
 
 
+//page refreshing not working. Just does nothing
+const [refreshing, setRefreshing] = React.useState(false);
 
-let typeData = [{
-    label: 'Nopeus',
-    value: 'nopeus'
-  }, {
-    label: 'Nopeuskestävyys',
-    value: 'nopeuskestavyys'
-  }, {
+function wait(timeout) {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+}, [refreshing]);
+
+
+
+
+let typeData = [ {
+    label: 'Aerobia',
+    value: 'aerobia'
+  },{
+    label: 'Hieronta',
+    value: 'hieronta'
+  },{
     label: 'Kuntopiiri',
     value: 'kuntopiiri'
+  },{
+    label: 'Maksimikestävyys',
+    value: 'maksimikestävyys'
+  },{
+    label: 'Liikkuvuus',
+    value: 'liikkuvuus'
+  },{ 
+    label: 'Muu',
+    value: 'muu'
+  },{
+    label: 'Nopeus',
+    value: 'nopeus'
+  },{
+    label: 'Nopeuskestävyys',
+    value: 'nopeuskestavyys'
+  },{
+    label: 'Kuntopiiri',
+    value: 'kuntopiiri'
+  },{
+    label: 'Nopeuskestävyys',
+    value: 'nopeuskestavyys'
+  },{
+    label: 'Peruskestävyys',
+    value: 'peruskestävyys'
   }];
 
+  let feelData = [{
+    label: '5. Erittäin onnistunut',
+    value: 'erittäin onnistunut'
+  }, {
+    label: '4. Onnistunut',
+    value: 'onnistunut'
+  },  {
+    label: '3. Neutraali',
+    value: 'neutraali'
+  },  {
+    label: '2. Epäonnistunut',
+    value: 'epäonnistunut'
+  }, {
+    label: '1. Erittäin epäonnistunut',
+    value: 'erittäin epäonnistunut'
+  }];
+
+  let loadData = [{
+    label: '10. maksimaalinen',
+    value: 10
+  }, {
+    label: '9.',
+    value: 9
+  },  {
+    label: '8.',
+    value: 8
+  },  {
+    label: '7.',
+    value: 7
+  }, {
+    label: '6.',
+    value: 6
+  }, {
+    label: '5. kova',
+    value: 5
+  },  {
+    label: '4.',
+    value: 4
+  },  {
+    label: '3.',
+    value: 3
+  }, , {
+    label: '2.',
+    value: 2
+  },  {
+    label: '1. erittäin helppo',
+    value: 1
+  }];
+
+
+
+//adding training to the database and navigating back to calendar screen
 addTraining = () => {
 
-   setTraining([...training, {key: date, time: time, duration: duration, name: name,type: type,content: content}]);
-    //setTrainings([...trainings, {key: date+time, training: training}])
-
     firebase.database().ref('trainings/').push(
-        {'training': training}
-    )
-    setDate('');
-    setName('');
-    setTime('');
-    setType('');
-    setContent('');
-    setDuration(0);
+        {'date': date, 'time': time, 'duration': duration, 'name': name,'type': type,'content': content, 'load': load, 'feel': feel}
+    );
 
+    
+    //navigation is working but it wont let you add training if you go to the calendar screen between you add two trainings
+    props.navigation.navigate('Calendar');
+    Alert.alert('Treeni lisätty');
 
 }
 
 
     return (
 
-<KeyboardAwareScrollView>
-    <ScrollView >
+<KeyboardAwareScrollView
+refreshControl={
+    <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+}>
+    <ScrollView
+    
+    >
     <LinearGradient
-          colors={['#0098ff','#0098ff','#4ab6ff','#6fc5ff','#94d4ff','#b9e3ff']}
-          style={{
+                colors={['#2e6e87','#25637b','#1d586f','#144d63','#0c4257']}
+            style={{
             position: 'absolute',
             left: 0,
             right: 0,
@@ -88,12 +180,17 @@ addTraining = () => {
           }}
         />
         <View>
+
+            
             
             <View  style={styles.width80}>
+            <View style={styles.row}> 
+                <Text style={[styles.textcenter, styles.heading1]}>Ajankohta</Text>         
+            </View>
                 <View style={[styles.dates, styles.row]}> 
                     <DatePicker
                         style={styles.datepicker}
-                        mode="datetime"
+                        mode="date"
                         placeholder="Päivämäärä"
                         date={date}
                         minDate="01-01-2000"
@@ -107,6 +204,12 @@ addTraining = () => {
                         },
                         dateInput: {
                             borderWidth:0,
+                        },
+                        dateText:{
+                            color:'white'
+                        },
+                        placeholderText:{
+                            color:'rgba(255,255,255,0.2)'
                         }
                         }}
                         onDateChange={date => setDate(date)}
@@ -124,6 +227,12 @@ addTraining = () => {
                         },
                         dateInput: {
                             borderWidth:0,
+                        },
+                        dateText:{
+                            color:'white'
+                        },
+                        placeholderText:{
+                            color:'rgba(255,255,255,0.2)'
                         }
                         }}
                         onDateChange={time => setTime(time)}
@@ -131,28 +240,33 @@ addTraining = () => {
                     <TextInput 
                         style={styles.datepicker}
                         placeholder='Kesto (min)'
+                        placeholderTextColor='rgba(255,255,255,0.2)'
                         keyboardType='numeric'
                         onChangeText={duration => setDuration(duration)}
                         value={duration}
                     />
                 </View>
         
+                <View style={styles.row}> 
+                    <Text style={[styles.textcenter, styles.heading1]}>Sisältö</Text>         
+                </View>
+
                 <View style={styles.row}>           
                     <TextInput
                         placeholder='Harjoituksen nimi'
+                        placeholderTextColor='rgba(255,255,255,0.2)'
                         style={styles.textinput}
                         onChangeText={(name) => setName(name)}
                         value={name}
                     />
                 </View>
 
-                <View style={styles.row}> 
-                    <Text style={[styles.textcenter, styles.heading1]}>Sisältö</Text>         
-                </View>
-
                 <View style={styles.row}>
                     <Dropdown
                         label='Harjoituksen tyyppi'
+                        baseColor='white'
+                        selectedItemColor='black'
+                        textColor='white'
                         data={typeData}
                         onChangeText={(type) => setType(type)}
                         value={type}
@@ -160,15 +274,49 @@ addTraining = () => {
                 </View>
 
                 <View style={styles.row}>             
-                    <AutoGrowingTextInput 
-                        style={styles.textinput} 
+                <TextInput
                         placeholder='Harjoituksen sisältö'
+                        placeholderTextColor='rgba(255,255,255,0.2)'
+                        multiline={true}
+                        style={styles.textinput}
                         onChangeText={(content) => setContent(content)}
                         value={content}
-                        />
-                </View>   
+                    />
+                </View>  
 
-            <Button title='Lisää' onPress={addTraining}/>
+                <View style={styles.row}>
+                    <Dropdown
+                        label='Fiilis'
+                        baseColor='white'
+                        selectedItemColor='black'
+                        textColor='white'
+                        data={feelData}
+                        onChangeText={(feel) => setFeel(feel)}
+                        value={feel}
+                    />
+                </View>  
+                
+                <View style={styles.row}>
+                    <Dropdown
+                        label='Kuormitus'
+                        baseColor='white'
+                        selectedItemColor='black'
+                        textColor='white'
+                        data={loadData}
+                        onChangeText={(load) => setLoad(load)}
+                        value={load}
+                    />
+                </View> 
+
+
+               
+                    <TouchableOpacity
+                            style={styles.addTrainingButton}
+                            onPress={addTraining}>
+                            <Text style={styles.addTrainingButtonText}>Lisää harjoitus</Text>
+                    </TouchableOpacity>
+               
+
             </View>
         </View>
     </ScrollView>

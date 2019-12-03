@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import {View, Alert, TouchableOpacity, Text} from 'react-native';
+import React from 'react';
+import {View, Alert, TouchableOpacity, Text, ScrollView, RefreshControl} from 'react-native';
 import {CalendarList} from 'react-native-calendars';
 import {LocaleConfig} from 'react-native-calendars';
 import { styles } from '../styles/styles';
-import * as firebase from'firebase';
-
-
 
 
 LocaleConfig.locales['fr'] = {
@@ -19,56 +16,67 @@ LocaleConfig.defaultLocale = 'fr';
   
 
 
-
 const CalendarScreen = props => {
 
+const [refreshing, setRefreshing] = React.useState(false);
 
-//     const [trainings, setTrainings] = useState([])
-
-// useEffect(() => {
-//     firebase.database().ref('trainings/').on('value', snapshot=> {
-//         const data= snapshot.val ();
-//         const prods= Object.values(data);
-//         setTrainings(prods);
-//     });
-// }, []);
-
-
+function wait(timeout) {
+    return new Promise(resolve => {
+        setTimeout(resolve, timeout);
+    });
+}
+const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+}, [refreshing]);
+    
 dayPressed = () => {
 Alert.alert('Tämän päivän harjoitukset', 'Nopeuskestävyys')
 }
+
 goAddTraining = () => {
-    Alert.alert('Siirtymä', 'Lisää harjoitus')
+    props.navigation.navigate('AddTraining')
     }
 
     return (
 
         <View style={styles.marginTop}>
-
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
+                }
+            >
             <CalendarList
             horizontal={true}
             pagingEnabled={true}
-
             futureScrollRange={4}
-
             onDayPress={(day) => dayPressed()}
-            
-
             markedDates={{
+                '2019-11-21': {marked: true, selectedColor: 'blue'},
+                '2019-11-22': {marked: true, selectedColor: 'blue'},
+                '2019-11-24': {marked: true, selectedColor: 'blue'},
                 '2019-11-25': {marked: true, selectedColor: 'blue'},
-
+                '2019-11-26': {marked: true, selectedColor: 'blue'},
+                '2019-11-28': {marked: true, selectedColor: 'blue'},
+                '2019-11-29': {marked: true, selectedColor: 'blue'},
+                '2019-11-30': {marked: true, selectedColor: 'blue'},
+                '2019-12-01': {marked: true, selectedColor: 'blue'},
+                '2019-12-02': {marked: true, selectedColor: 'blue'},
+                '2019-12-03': {marked: true, selectedColor: 'blue'},
+                '2019-12-05': {marked: true, selectedColor: 'blue'},
+                '2019-12-06': {marked: true, selectedColor: 'blue'},
+                '2019-12-07': {marked: true, selectedColor: 'blue'},
             }}
-
             />
-            <View>
+            <View style={styles.borderTop}>
                 <TouchableOpacity
                 style={styles.goAddTraining}
                 onPress={goAddTraining}
                 >
-                <Text style={styles.goAddTrainingText}>Lisää tehty harjoitus</Text>
+                <Text style={styles.goAddTrainingText}>Lisää harjoitus</Text>
                 </TouchableOpacity>
             </View>
-            
+            </ScrollView>
         </View>
 
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -18,17 +18,27 @@ const HomeStack = createStackNavigator(
     {
       Home: HomeScreen,
     },
-    config
-  );
+    config,
+    );
   HomeStack.navigationOptions = {
     tabBarLabel: 'thermometer',
     tabBarIcon: ({ focused }) => (
       <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? `ios-thermometer${focused ? '' : ''}`: 'md-thermometer' }
       />
-    ),
+    ),   
+
     
     tabBarOptions:{
-     showLabel: false
+     showLabel: false,
+     showIcon: true,
+     indicatorStyle:{
+       backgroundColor: 'white',
+     },
+     style: {
+       backgroundColor: 'white',
+       borderTopWidth: 1,
+       borderTopColor:'#eeeeee',
+     },
     }
 
 
@@ -36,24 +46,38 @@ const HomeStack = createStackNavigator(
 
   HomeStack.path = '';
 
-  const AddTrainingStack = createStackNavigator(
+  const CalendarStack = createStackNavigator(
     {
-      AddTraining: CalendarScreen,
+      Calendar: CalendarScreen,
+      AddTraining: AddTraining,
+    },{
+      initialRoute:'Calendar',
     },
-    config
+    config,
+  
   );
   
-  AddTrainingStack.navigationOptions = {
-    tabBarLabel: 'Add Training',
+  CalendarStack.navigationOptions = {
+    tabBarLabel: 'Calendar',
     tabBarIcon: ({ focused }) => (
       <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'} />
     ),
     tabBarOptions:{
-        showLabel: false
+        showLabel: false,
+        showIcon: true,
+        indicatorStyle:{
+          backgroundColor: 'white',
+        },
+        style: {
+          backgroundColor: 'white',
+          borderTopWidth: 1,
+          borderTopColor:'#eeeeee',
+        },
+
        }   
   };
   
-  AddTrainingStack.path = '';
+  CalendarStack.path = '';
 
   const SummaryStack = createStackNavigator(
     {
@@ -68,19 +92,32 @@ const HomeStack = createStackNavigator(
       <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-stats' : 'md-stats'} />
     ),
     tabBarOptions:{
-        showLabel: false
+        showLabel: false,
+        showIcon: true,
+          indicatorStyle:{
+            backgroundColor: 'white',
+          },
+        style: {
+          backgroundColor: 'white',
+          borderTopWidth: 1,
+          borderTopColor:'#eeeeee',
+        },
        }   
   };
   
   SummaryStack.path = '';
   
 
-const AppNavigator = createBottomTabNavigator({
+const AppNavigator = createMaterialTopTabNavigator({
     HomeStack,
-    AddTrainingStack,
+    CalendarStack,
     SummaryStack
 
-});
+},
+{
+  tabBarPosition:'bottom',
+}
+);
 
 
 AppNavigator.path = '';
