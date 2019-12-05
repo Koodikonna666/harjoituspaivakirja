@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center'
     },
     background:{
-        backgroundColor:'F4C484'
+    //    backgroundColor:'#F4C484'
     },
     header:{
         backgroundColor: 'white'        
@@ -157,9 +157,6 @@ export const styles = StyleSheet.create({
     },
     flex:{
         flexDirection:'row',
-        backgroundColor:'F4C484',
-
-
     },
     datesRowItem:{
         marginLeft:'auto',
